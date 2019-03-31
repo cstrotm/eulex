@@ -95,6 +95,7 @@ multiboot_addr @ feature __MULTIBOOT__
     mb-> multiboot-info-mem-upper @ kb constant mem-upper-size
     mem-upper-size 1 MB + constant mem-upper-limit
 [else]
+    $fffeffff constant mem-upper-size
     $ffffffff constant mem-upper-limit
 [endif]
 

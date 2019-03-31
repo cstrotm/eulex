@@ -12,7 +12,7 @@ LINKER_SCRIPT = eulex.lds
 CFLAGS = -fstrength-reduce -nostdinc -m32 -nostdlib -fno-builtin -nostartfiles -nodefaultlibs -I. -ggdb
 ASFLAGS = $(CFLAGS) -I.
 DEPEND_FLAGS=-MM
-LDFLAGS=-Wl,-T$(LINKER_SCRIPT)
+LDFLAGS=-Wl,-T$(LINKER_SCRIPT) -s -n  #  -s -n -z max-page-size=0x1000
 FORTH_SRC= \
 	core.fs \
 	corestage2.fs \
@@ -65,7 +65,8 @@ HEADERS=multiboot.h
 OBJS = $(ASM_SRC:.S=.o) $(FORTH_SRC:.fs=.o) $(TESTING_SRC:.fs=.o) $(LISP_SRC:.lisp=.o)
 
 $(KERNEL): $(OBJS) $(LINKER_SCRIPT)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+#	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+	$(LD) -m elf_i386 -T  $(LINKER_SCRIPT) -o $@ $(OBJS)
 
 clean:
 	-rm -f *.[do] kernel/*.[do] tests/*.[do] app/*.[do] lisp/*.[do] $(KERNEL) BUILTIN-FILES.S

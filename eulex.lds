@@ -1,12 +1,15 @@
 OUTPUT_ARCH(i386)
 OUTPUT_FORMAT("elf32-i386")
 ENTRY(_start)
+
 SECTIONS
 {
     /DISCARD/ : { *(.note.gnu.build-id) }
     /DISCARD/ : { *(.note.gnu.gold-version) }
+    /DISCARD/ : { *(.note.gnu.property) }
+    . = 1M;
 
-    .text 0x100000 :
+    .Text :
     {
         code = .; _code = .; __code = .;
         *(.text)
